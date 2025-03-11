@@ -5,7 +5,10 @@ using MVVMStandard.ViewModel;
 using System.Windows.Input;
 using ERPManager.Interfaces;
 using KundenVerwaltung.View;
-
+using System.ComponentModel;
+using System.Windows.Automation;
+using ERPManager.ZusatzInhaltManager;
+using KundenVerwaltung.ZusatzInhalt;
 
 namespace KundenVerwaltung.ViewModel
 {
@@ -27,7 +30,7 @@ namespace KundenVerwaltung.ViewModel
         #endregion
 
         #region Fields
-        
+
         private string _searchText = "";
         private ViewCollection<Customers> _customers;
         private Customers _selectedCustomer;
@@ -74,10 +77,12 @@ namespace KundenVerwaltung.ViewModel
             get => Customers?.CurrentItem;
             set
             {
-                if (Customers != null && Customers.CurrentItem != value)
+                if (Customers != null )
                 {
                     Customers.CurrentItem = value;
                     OnPropertyChanged(nameof(SelectedCustomer));
+
+                    IsSelected = Customers.CurrentItem != null;
                 }
             }
         }
@@ -110,12 +115,13 @@ namespace KundenVerwaltung.ViewModel
         public void Init()
         {
 
+            EventLoading();
             LoadCustomers();
         }
 
         private void LoadCustomers()
         {
-            string sql = "where 1 =1";
+            string sql = "where 1 =1 order by id";
             Customers = ERPManager.Services.QueryManager.StaticErpAbfrage<Customers>(sql);
         }
 
@@ -141,8 +147,38 @@ namespace KundenVerwaltung.ViewModel
 
         private bool CanModifyCustomer()
         {
-            return SelectedCustomer != null;
+            return IsSelected;
         }
+
+        private void EventLoading() 
+        {
+            EntityBaseModel.OrmObjectMaterialized -= ERPManager_OrmObjectMaterialized;
+            EntityBaseModel.OrmObjectMaterialized += ERPManager_OrmObjectMaterialized;
+        }
+
+
+        private void ERPManager_OrmObjectMaterialized(object sender, OrmEntityEventArgs args)
+        {
+            if(args.Entity is Customers entity)
+            {
+                entity.ZusatzInhalt = new CustomerZusatzInhalt(entity);
+            }
+        }
+        //private void EventLoading()
+        //{
+        //    PropertyChanged += CurrentItemSelected;
+        //}
+
+        //private void CurrentItemSelected(object? sender, PropertyChangedEventArgs e)
+        //{
+        //    switch (e.PropertyName)
+        //    {
+
+        //        case nameof(SelectedCustomer):
+        //            IsSelected = SelectedCustomer.GetType() != null ? true : false;
+        //            break;
+        //    }
+        //}
 
         #endregion
     }
