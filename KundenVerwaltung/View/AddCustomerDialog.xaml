@@ -6,19 +6,25 @@
         xmlns:local="clr-namespace:KundenVerwaltung.View"
         mc:Ignorable="d"
         Title="AddCustomerDialog"
+        WindowStyle="None"
         Height="300"
         Width="400"
-        WindowStartupLocation="CenterOwner">
-    
+        Background="{StaticResource BackgroundBrush}"
+        WindowStartupLocation="CenterOwner"
+        Cursor="">
+
     <Grid>
         <StackPanel Margin="10">
-            <TextBlock Text="Kundenname:" />
+            <TextBlock Text="Kundenname:"
+                       Style="{StaticResource DialogBlock}" />
             <TextBox Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" />
 
-            <TextBlock Text="E-Mail:" />
+            <TextBlock Text="E-Mail:"
+                       Style="{StaticResource DialogBlock}" />
             <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
 
-            <TextBlock Text="Telefonnummer:" />
+            <TextBlock Text="Telefonnummer:"
+                       Style="{StaticResource DialogBlock}" />
             <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" />
 
             <StackPanel Orientation="Horizontal"
@@ -27,12 +33,10 @@
 
                 <Button Content="Speichern"
                         Command="{Binding SaveCommand}"
-                        Width="80"
                         Margin="5" />
 
                 <Button Content="Abbrechen"
                         Command="{Binding CancelCommand}"
-                        Width="80"
                         Margin="5" />
 
             </StackPanel>

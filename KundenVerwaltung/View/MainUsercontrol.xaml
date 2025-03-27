@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KundenVerwaltung"
+        xmlns:zahnrad="clr-namespace:ERPSteuerelemente;assembly=ERPSteuerelemente"
+        xmlns:controls="clr-namespace:KundenVerwaltung.Controls"
         mc:Ignorable="d"
         Title="Kunden Verwaltung"
         Height="800"
@@ -11,8 +13,8 @@
         Loaded="Window_Loaded"
         Background="{StaticResource BackgroundBrush}"
         WindowStartupLocation="CenterScreen"
-        Icon=""
-        >
+        Icon="/Themes/logoicon.ico"
+        WindowStyle="SingleBorderWindow">
 
     <Grid>
         <StackPanel Orientation="Vertical"
@@ -39,21 +41,17 @@
                                         Width="50" />
 
                     <DataGridTextColumn Header="Name"
-                                        Binding="{Binding ZusatzInhalt.Name}"
-                                         />
+                                        Binding="{Binding ZusatzInhalt.Name}" />
 
 
                     <DataGridTextColumn Header="Typ"
-                                        Binding="{Binding ZusatzInhalt.CustomerTypeName}"
-                                         />
+                                        Binding="{Binding ZusatzInhalt.CustomerTypeName}" />
 
                     <DataGridTextColumn Header="Notes"
-                                        Binding="{Binding notes}"
-                                         />
+                                        Binding="{Binding notes}" />
 
                     <DataGridTextColumn Header="Payment Terms"
-                                        Binding="{Binding payment_terms}"
-                                         />
+                                        Binding="{Binding payment_terms}" />
 
                 </DataGrid.Columns>
             </DataGrid>
@@ -72,11 +70,23 @@
                 <Button Content="🗑 Löschen"
                         Margin="5"
                         Command="{Binding DeleteCustomerCommand}"
-                        IsEnabled="{Binding IsSelected}" 
-                        Background="{StaticResource SecondaryBrush}"/>
+                        IsEnabled="{Binding IsSelected}"
+                        Background="{StaticResource SecondaryBrush}" />
+
+                <Button Content="Reload"
+                        Margin="5"
+                        Command="{Binding LoadDataCommand}"
+                        Background="{StaticResource SecondaryBrush}" />
+
 
             </StackPanel>
 
         </StackPanel>
+   
+        <controls:LoadingOverlay 
+            d:Visibility ="Visible"
+            d:IsHitTestVisible="False"
+            Visibility="{Binding IsLoading, Source={StaticResource GlobalLoadingService}, Converter={StaticResource BooleanToVisibilityConverter}}"
+            IsHitTestVisible="{Binding IsLoading, Source={StaticResource GlobalLoadingService}, FallbackValue=False}"/>
     </Grid>
 </Window>

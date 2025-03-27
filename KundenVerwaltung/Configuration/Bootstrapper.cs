@@ -1,5 +1,6 @@
 ﻿using ERPManager;
 using ERPManager.Interfaces;
+using ERPManager.Services;
 using KundenVerwaltung.Services;
 using KundenVerwaltung.View;
 using KundenVerwaltung.ViewModel;
@@ -17,6 +18,12 @@ namespace KundenVerwaltung.Configuration
             // 🔹 ERPManagerFactory initialisieren (stellt sicher, dass alles geladen ist)
             ERPManagerFactory.Initialize();
 
+            // 🔹 GlobalLoadingService aus der Factory holen
+            var globalLoadingService = ERPManagerFactory.GetGlobalLoadingService();
+
+            // 🔹 `IGlobalLoadingService` richtig registrieren
+            services.AddSingleton<IGlobalLoadingService>(globalLoadingService);
+
             // Registrierung des ViewModels
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<AddCustomerDialogViewModel>();
@@ -27,7 +34,7 @@ namespace KundenVerwaltung.Configuration
 
             // Registrierung des INavigationService
             services.AddSingleton<INavigationService, NavigationService>();
-
+           
             return services.BuildServiceProvider();
         }
     }

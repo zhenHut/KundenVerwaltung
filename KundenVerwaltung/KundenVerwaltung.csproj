@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Themes\logoicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,12 +41,19 @@
     <Reference Include="ERPManager">
       <HintPath>..\..\ERPManager\ERPManager\bin\Debug\net8.0-windows8.0\ERPManager.dll</HintPath>
     </Reference>
+    <Reference Include="ERPSteuerelemente">
+      <HintPath>..\..\ERPSteuerelemente\ERPSteuerelemente\bin\Debug\net8.0-windows\ERPSteuerelemente.dll</HintPath>
+    </Reference>
     <Reference Include="KundenVerwaltungORM">
       <HintPath>..\..\..\..\Desktop\ORMs\KundenVerwaltungORM.dll</HintPath>
     </Reference>
     <Reference Include="MVVMStandard">
-      <HintPath>..\..\MVVMStandard\MVVMStandard\bin\Release\net8.0-windows8.0\MVVMStandard.dll</HintPath>
+      <HintPath>..\..\MVVMStandard\MVVMStandard\bin\Debug\net8.0-windows8.0\MVVMStandard.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Themes\logoicon.ico" />
   </ItemGroup>
 
 </Project>

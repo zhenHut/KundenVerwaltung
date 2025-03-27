@@ -44,7 +44,9 @@ namespace KundenVerwaltung
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _viewModel.Init();
+            
         }
+
 
         #endregion
     }

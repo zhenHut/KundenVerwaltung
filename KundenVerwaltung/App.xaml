@@ -1,8 +1,19 @@
 ﻿<Application x:Class="KundenVerwaltung.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:KundenVerwaltung">
+             xmlns:local="clr-namespace:KundenVerwaltung"
+             xmlns:converter="clr-namespace:KundenVerwaltung.Converter">
     <Application.Resources>
-        <ResourceDictionary Source="Themes/CustomStyles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Lade Styles -->
+                <ResourceDictionary Source="Themes/CustomStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Richtig: BooleanToVisibilityConverter registrieren -->
+            <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        
+        </ResourceDictionary>
+      
     </Application.Resources>
 </Application>
