@@ -1,14 +1,4 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
+﻿using System.Windows;
 using KundenVerwaltung.ViewModel;
 
 namespace KundenVerwaltung
@@ -23,8 +13,7 @@ namespace KundenVerwaltung
         public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-            DataContext =  viewModel;
-            _viewModel = viewModel;            
+            DataContext =  viewModel;        
         }
 
         #endregion
@@ -40,13 +29,6 @@ namespace KundenVerwaltung
         #endregion
 
         #region Methods
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            _viewModel.Init();
-            
-        }
-
 
         #endregion
     }

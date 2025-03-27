@@ -4,17 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KundenVerwaltung"
-        xmlns:zahnrad="clr-namespace:ERPSteuerelemente;assembly=ERPSteuerelemente"
-        xmlns:controls="clr-namespace:KundenVerwaltung.Controls"
+        xmlns:controls="clr-namespace:ErpUI.Controls;assembly=ErpUI"
+        xmlns:behaviors="clr-namespace:ErpUI.Behaviors;assembly=ErpUI"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Kunden Verwaltung"
         Height="800"
         Width="1000"
-        Loaded="Window_Loaded"
         Background="{StaticResource BackgroundBrush}"
         WindowStartupLocation="CenterScreen"
-        Icon="/Themes/logoicon.ico"
+        Icon="{StaticResource AppIcon}"
         WindowStyle="SingleBorderWindow">
+    <!--Icon="/Themes/logoicon.ico"-->
+
+    <i:Interaction.Behaviors>
+        <behaviors:LoadedBehavior />
+    </i:Interaction.Behaviors>
 
     <Grid>
         <StackPanel Orientation="Vertical"
@@ -58,6 +63,7 @@
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
+                
                 <Button Content="➕ Neuer Kunde"
                         Margin="5"
                         Command="{Binding OpenCustomerViewCommand}" />
@@ -78,15 +84,14 @@
                         Command="{Binding LoadDataCommand}"
                         Background="{StaticResource SecondaryBrush}" />
 
-
             </StackPanel>
 
         </StackPanel>
-   
-        <controls:LoadingOverlay 
-            d:Visibility ="Visible"
-            d:IsHitTestVisible="False"
-            Visibility="{Binding IsLoading, Source={StaticResource GlobalLoadingService}, Converter={StaticResource BooleanToVisibilityConverter}}"
-            IsHitTestVisible="{Binding IsLoading, Source={StaticResource GlobalLoadingService}, FallbackValue=False}"/>
+
+        <controls:LoadingOverlay d:Visibility="Visible"
+                                 d:IsHitTestVisible="False"
+                                 Visibility="{Binding IsLoading, Source={StaticResource GlobalLoadingService}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                 IsHitTestVisible="{Binding IsLoading, Source={StaticResource GlobalLoadingService}, FallbackValue=False}"
+                                 OverlayText="Loading..." />
     </Grid>
 </Window>

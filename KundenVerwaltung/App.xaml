@@ -2,18 +2,20 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:KundenVerwaltung"
-             xmlns:converter="clr-namespace:KundenVerwaltung.Converter">
+             xmlns:converter="clr-namespace:ErpUI.Converter;assembly=ErpUI">
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- Lade Styles -->
-                <ResourceDictionary Source="Themes/CustomStyles.xaml" />
+                <!--<ResourceDictionary Source="Themes/CustomStyles.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/ErpUI;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Richtig: BooleanToVisibilityConverter registrieren -->
             <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        
+
         </ResourceDictionary>
-      
+
     </Application.Resources>
 </Application>

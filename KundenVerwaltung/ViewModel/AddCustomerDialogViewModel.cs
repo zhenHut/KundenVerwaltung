@@ -11,8 +11,7 @@ namespace KundenVerwaltung.ViewModel
 
         public AddCustomerDialogViewModel()
         {
-            SaveCommand = new RelayCommand(_ => Save());
-            CancelCommand = new RelayCommand(_ => Cancel());
+            
         }
 
         #endregion
@@ -63,11 +62,18 @@ namespace KundenVerwaltung.ViewModel
 
         #region Commands
 
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
+        public ICommand SaveCommand { get; private set; }
+        public ICommand CancelCommand { get; private set; }
         #endregion
 
         #region Methods
+
+        public void Init() 
+        {
+            SaveCommand = new RelayCommand(_ => Save());
+            CancelCommand = new RelayCommand(_ => Cancel());
+        }
+
         private void Save()
         {
 
