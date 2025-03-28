@@ -25,7 +25,6 @@ namespace KundenVerwaltung.View
         {
             InitializeComponent();
             DataContext = addCustomerDialogViewModel;
-            addCustomerDialogViewModel.Init();
         }
 
 

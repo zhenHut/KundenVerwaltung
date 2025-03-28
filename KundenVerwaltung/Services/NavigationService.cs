@@ -36,7 +36,7 @@ namespace KundenVerwaltung.Services
             }
         }
 
-        public T ShowDialogWithResult<T>() where T : class, new()
+        public T? ShowDialogWithResult<T>() where T : class, new()
         {
             var window = _serviceProvider.GetService(typeof(T)) as Window;
             return window?.ShowDialog() == true ? window as T : null;

@@ -5,54 +5,47 @@ using System.Windows.Input;
 
 namespace KundenVerwaltung.ViewModel
 {
-    public class AddCustomerDialogViewModel : BaseViewModel
+    public class AddCustomerDialogViewModel : AutoInitializableViewModel
     {
         #region Constructor
 
         public AddCustomerDialogViewModel()
         {
-            
+            SaveCommand = new RelayCommand(_ => Save());
+            CancelCommand = new RelayCommand(_ => Cancel());
         }
 
         #endregion
 
         #region Fields
-        private string _customerName;
-        private string _email;
-        private string _phone;
-        
+        private string? _customerName;
+        private string? _email;
+        private string? _phone;
+
         #endregion
 
         #region Properties
 
-         public string CustomerName
+        public string? CustomerName
         {
             get => _customerName;
-            set
-            {
-                if (_customerName != value)
-                {
-                    _customerName = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _customerName, value);
         }
 
-        public string Email
+        public string? Email
         {
             get => _email;
-            set
-            {
-                _email = value;
-                OnPropertyChanged(nameof(Email));
-            }
+            set => SetProperty(ref _email, value);
         }
 
-        public string Phone
+        public string? Phone
         {
             get => _phone;
             set
             {
+                if (_phone != value)
+                    return;
+
                 _phone = value;
                 OnPropertyChanged(nameof(Phone));
             }
@@ -62,16 +55,15 @@ namespace KundenVerwaltung.ViewModel
 
         #region Commands
 
-        public ICommand SaveCommand { get; private set; }
-        public ICommand CancelCommand { get; private set; }
+        public ICommand? SaveCommand { get; private set; }
+        public ICommand? CancelCommand { get; private set; }
         #endregion
 
         #region Methods
 
-        public void Init() 
+        protected override async Task Initialize() 
         {
-            SaveCommand = new RelayCommand(_ => Save());
-            CancelCommand = new RelayCommand(_ => Cancel());
+            await Task.CompletedTask;
         }
 
         private void Save()

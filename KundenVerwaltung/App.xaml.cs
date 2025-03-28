@@ -15,7 +15,7 @@ namespace KundenVerwaltung
     public partial class App : Application
     {
         private readonly IServiceProvider _serviceProvider;
-        public static IGlobalLoadingService GlobalLoadingService { get; private set; }
+        public static IGlobalLoadingService? GlobalLoadingService { get; private set; }
 
         public App()
         {

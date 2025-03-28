@@ -20,8 +20,6 @@ namespace KundenVerwaltung
 
         #region Fields
 
-        private readonly MainViewModel _viewModel;
-
         #endregion
 
         #region Properties

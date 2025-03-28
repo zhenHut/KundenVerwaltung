@@ -29,8 +29,8 @@ namespace KundenVerwaltung.ViewModel
         #region Fields
 
         private string _searchText = "";
-        private ViewCollection<Customers> _customers;
-        private Customers _selectedCustomer;
+        private ViewCollection<Customers>? _customers;
+        private Customers? _selectedCustomer;
         private bool _isSelected;
 
         private readonly IGlobalLoadingService _loadingService;
@@ -58,7 +58,7 @@ namespace KundenVerwaltung.ViewModel
             }
         }
 
-        public ViewCollection<Customers> Customers
+        public ViewCollection<Customers>? Customers
         {
             get => _customers;
             set
@@ -71,7 +71,7 @@ namespace KundenVerwaltung.ViewModel
             }
         }
 
-        public Customers SelectedCustomer
+        public Customers? SelectedCustomer
         {
             get => Customers?.CurrentItem;
             set
@@ -116,11 +116,11 @@ namespace KundenVerwaltung.ViewModel
 
         #region Commands
 
-        public ICommand OpenCustomerViewCommand { get; private set; }
-        public ICommand EditCustomerCommand { get; private set; }
-        public ICommand DeleteCustomerCommand { get; private set; }
+        public ICommand? OpenCustomerViewCommand { get; private set; } 
+        public ICommand? EditCustomerCommand { get; private set; }
+        public ICommand? DeleteCustomerCommand { get; private set; }
 
-        public ICommand LoadDataCommand { get; private set; }
+        public ICommand? LoadDataCommand { get; private set; }
 
         #endregion
 
@@ -146,8 +146,8 @@ namespace KundenVerwaltung.ViewModel
         private void LoadCommands()
         {
             OpenCustomerViewCommand = new RelayCommand(_ => _navigationService.ShowDialog<AddCustomerDialog>());
-            EditCustomerCommand = new RelayCommand(_ => EditCustomer(), _ => CanModifyCustomer());
-            DeleteCustomerCommand = new RelayCommand(_ => DeleteCustomer(), _ => CanModifyCustomer());
+            EditCustomerCommand = new RelayCommand(_ => EditCustomer(), _ => IsSelected);
+            DeleteCustomerCommand = new RelayCommand(_ => DeleteCustomer(), _ => IsSelected);
             LoadDataCommand = new RelayCommand(async _ => await StarteLade());
         }
 
@@ -168,12 +168,7 @@ namespace KundenVerwaltung.ViewModel
         private void DeleteCustomer()
         {
             if (SelectedCustomer != null)
-                _customers.DeleteCurrent();
-        }
-
-        private bool CanModifyCustomer()
-        {
-            return IsSelected;
+                _customers?.DeleteCurrent();
         }
 
         private void EventLoading()
@@ -182,20 +177,12 @@ namespace KundenVerwaltung.ViewModel
             EntityBaseModel.OrmObjectMaterialized += ERPManager_OrmObjectMaterialized;
         }
 
-
-        private void ERPManager_OrmObjectMaterialized(object sender, OrmEntityEventArgs args)
+        private void ERPManager_OrmObjectMaterialized(object? sender, OrmEntityEventArgs args)
         {
             if (args.Entity is Customers entity)
             {
                 entity.ZusatzInhalt = new CustomerZusatzInhalt(entity);
             }
-        }
-
-        private async void StarteLaden()
-        {
-            IsLoading = true;
-            await Task.Run(() => Thread.Sleep(3000)); // Simulierte Ladezeit
-            IsLoading = false;
         }
 
         private async Task StarteLade()
