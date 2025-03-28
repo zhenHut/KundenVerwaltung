@@ -1,10 +1,5 @@
-﻿using ERPManager;
-using ERPManager.Interfaces;
-using ERPManager.Services;
+﻿using ERPManager.Interfaces;
 using KundenVerwaltung.Configuration;
-using KundenVerwaltung.ViewModel;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace KundenVerwaltung

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Navigation;
+﻿using ERPManager.Services;
 using ERPManager.ZusatzInhalt;
-using ERPManager.Services;
 using GeneratedORM;
+using System.ComponentModel;
 
 namespace KundenVerwaltung.ZusatzInhalt
 {

@@ -1,6 +1,5 @@
 ﻿using ERPManager;
 using ERPManager.Interfaces;
-using ERPManager.Services;
 using KundenVerwaltung.Services;
 using KundenVerwaltung.View;
 using KundenVerwaltung.ViewModel;

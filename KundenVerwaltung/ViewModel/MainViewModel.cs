@@ -7,7 +7,6 @@ using KundenVerwaltung.Commands;
 using KundenVerwaltung.View;
 using KundenVerwaltung.ZusatzInhalt;
 using MVVMStandard.ViewModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace KundenVerwaltung.ViewModel
