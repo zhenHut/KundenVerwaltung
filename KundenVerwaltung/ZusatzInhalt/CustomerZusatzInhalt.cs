@@ -60,6 +60,10 @@ namespace KundenVerwaltung.ZusatzInhalt
             {
                 sql = "SELECT first_name || ' ' || last_name FROM \"Private_customers\" WHERE id = @id";
             }
+            else if (Entity.customer_type_id is 3)
+            {
+                sql = "SELECT first_name || ' ' || last_name FROM \"Private_customers\" WHERE id = @id";
+            }
             else
             {
                 return "Unbekannter Typ";
