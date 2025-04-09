@@ -1,37 +1,38 @@
 ﻿using ERPManager.Collection;
+using ERPManager.Helpers;
+using ERPManager.Interfaces;
+using ERPManager.ZusatzInhaltManager;
 using GeneratedORM;
 using KundenVerwaltung.Commands;
+using KundenVerwaltung.View;
+using KundenVerwaltung.ZusatzInhalt;
 using MVVMStandard.ViewModel;
 using System.Windows.Input;
-using ERPManager.Interfaces;
-using KundenVerwaltung.View;
-
 
 namespace KundenVerwaltung.ViewModel
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : AutoInitializableViewModel
     {
         #region Constructor
 
-        public MainViewModel(INavigationService addCustomerDialog)
+        public MainViewModel(INavigationService addCustomerDialog, IGlobalLoadingService loadingService)
         {
             _navigationService = addCustomerDialog;
+            _loadingService = loadingService;
 
-            OpenCustomerViewCommand = new RelayCommand(_ => _navigationService.ShowDialog<AddCustomerDialog>());
-            EditCustomerCommand = new RelayCommand(_ => EditCustomer(), _ => CanModifyCustomer());
-            DeleteCustomerCommand = new RelayCommand(_ => DeleteCustomer(), _ => CanModifyCustomer());
-
+            LoadCommands();
         }
-
 
         #endregion
 
         #region Fields
-        
+
         private string _searchText = "";
-        private ViewCollection<Customers> _customers;
-        private Customers _selectedCustomer;
+        private ViewCollection<Customers>? _customers;
+        private Customers? _selectedCustomer;
         private bool _isSelected;
+
+        private readonly IGlobalLoadingService _loadingService;
 
         #endregion
 
@@ -56,7 +57,7 @@ namespace KundenVerwaltung.ViewModel
             }
         }
 
-        public ViewCollection<Customers> Customers
+        public ViewCollection<Customers>? Customers
         {
             get => _customers;
             set
@@ -69,15 +70,17 @@ namespace KundenVerwaltung.ViewModel
             }
         }
 
-        public Customers SelectedCustomer
+        public Customers? SelectedCustomer
         {
             get => Customers?.CurrentItem;
             set
             {
-                if (Customers != null && Customers.CurrentItem != value)
+                if (Customers != null)
                 {
                     Customers.CurrentItem = value;
                     OnPropertyChanged(nameof(SelectedCustomer));
+
+                    IsSelected = Customers.CurrentItem != null;
                 }
             }
         }
@@ -95,28 +98,54 @@ namespace KundenVerwaltung.ViewModel
             }
         }
 
+
+        public bool IsLoading
+        {
+            get => _loadingService.IsLoading;
+            set
+            {
+                if (_loadingService.IsLoading == value)
+                    return;
+
+                _loadingService.IsLoading = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Commands
 
-        public ICommand OpenCustomerViewCommand { get; }
-        public ICommand EditCustomerCommand { get; }
-        public ICommand DeleteCustomerCommand { get; }
+        public ICommand? OpenCustomerViewCommand { get; private set; } 
+        public ICommand? EditCustomerCommand { get; private set; }
+        public ICommand? DeleteCustomerCommand { get; private set; }
+
+        public ICommand? LoadDataCommand { get; private set; }
 
         #endregion
 
         #region Methods
 
-        public void Init()
+        protected override async Task Initialize()
         {
-
-            LoadCustomers();
+            using (new LoadingScope(_loadingService))
+            {
+                EventLoading();
+                await LoadCustomers();
+            }
         }
 
-        private void LoadCustomers()
+        private async Task LoadCustomers()
         {
-            string sql = "where 1 =1";
-            Customers = ERPManager.Services.QueryManager.StaticErpAbfrage<Customers>(sql);
+            string sql = "where 1 =1 order by id";
+            Customers = await Task.Run(() => ERPManager.Services.QueryManager.StaticErpAbfrage<Customers>(sql));
+        }
+
+        private void LoadCommands()
+        {
+            OpenCustomerViewCommand = new RelayCommand(_ => _navigationService.ShowDialog<AddPrivateCustomerDialog>());
+            EditCustomerCommand = new RelayCommand(_ => EditCustomer(), _ => IsSelected);
+            DeleteCustomerCommand = new RelayCommand(_ => DeleteCustomer(), _ => IsSelected);
+            LoadDataCommand = new RelayCommand(async _ => await StarteLade());
         }
 
         /// <summary>
@@ -136,12 +165,28 @@ namespace KundenVerwaltung.ViewModel
         private void DeleteCustomer()
         {
             if (SelectedCustomer != null)
-                _customers.DeleteCurrent();
+                _customers?.DeleteCurrent();
         }
 
-        private bool CanModifyCustomer()
+        private void EventLoading()
         {
-            return SelectedCustomer != null;
+            EntityBaseModel.OrmObjectMaterialized -= ERPManager_OrmObjectMaterialized;
+            EntityBaseModel.OrmObjectMaterialized += ERPManager_OrmObjectMaterialized;
+        }
+
+        private void ERPManager_OrmObjectMaterialized(object? sender, OrmEntityEventArgs args)
+        {
+            if (args.Entity is Customers entity)
+            {
+                entity.ZusatzInhalt = new CustomerZusatzInhalt(entity);
+            }
+        }
+
+        private async Task StarteLade()
+        {
+            IsLoading = true;
+            await Task.Delay(3000); // Simulierte Ladezeit
+            IsLoading = false;
         }
 
         #endregion

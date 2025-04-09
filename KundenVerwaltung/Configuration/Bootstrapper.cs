@@ -17,17 +17,23 @@ namespace KundenVerwaltung.Configuration
             // 🔹 ERPManagerFactory initialisieren (stellt sicher, dass alles geladen ist)
             ERPManagerFactory.Initialize();
 
+            // 🔹 GlobalLoadingService aus der Factory holen
+            var globalLoadingService = ERPManagerFactory.GetGlobalLoadingService();
+
+            // 🔹 `IGlobalLoadingService` richtig registrieren
+            services.AddSingleton<IGlobalLoadingService>(globalLoadingService);
+
             // Registrierung des ViewModels
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<AddCustomerDialogViewModel>();
 
             // Registrierung der Views
             services.AddSingleton<MainWindow>();
-            services.AddTransient<AddCustomerDialog>();
+            services.AddTransient<AddPrivateCustomerDialog>();
 
             // Registrierung des INavigationService
             services.AddSingleton<INavigationService, NavigationService>();
-
+           
             return services.BuildServiceProvider();
         }
     }

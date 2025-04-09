@@ -1,7 +1,5 @@
-﻿using KundenVerwaltung.Configuration;
-using KundenVerwaltung.ViewModel;
-using System.Configuration;
-using System.Data;
+﻿using ERPManager.Interfaces;
+using KundenVerwaltung.Configuration;
 using System.Windows;
 
 namespace KundenVerwaltung
@@ -12,6 +10,7 @@ namespace KundenVerwaltung
     public partial class App : Application
     {
         private readonly IServiceProvider _serviceProvider;
+        public static IGlobalLoadingService? GlobalLoadingService { get; private set; }
 
         public App()
         {
@@ -20,8 +19,11 @@ namespace KundenVerwaltung
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            GlobalLoadingService = (IGlobalLoadingService?)_serviceProvider.GetService(typeof(IGlobalLoadingService));
+
+            Resources["GlobalLoadingService"] = GlobalLoadingService;
+
             var mainWindow = (MainWindow?)_serviceProvider.GetService(typeof(MainWindow));
-           
             mainWindow?.Show();
         }
     }
