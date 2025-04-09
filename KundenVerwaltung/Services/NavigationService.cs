@@ -16,7 +16,7 @@ namespace KundenVerwaltung.Services
 
         public void ShowAddCustomerDialog()
         {
-            var window = _serviceProvider.GetService<AddCustomerDialog>();
+            var window = _serviceProvider.GetService<AddPrivateCustomerDialog>();
             window?.ShowDialog();
         }
 

@@ -130,8 +130,6 @@ namespace KundenVerwaltung.ViewModel
             using (new LoadingScope(_loadingService))
             {
                 EventLoading();
-
-                LoadCommands();
                 await LoadCustomers();
             }
         }
@@ -144,7 +142,7 @@ namespace KundenVerwaltung.ViewModel
 
         private void LoadCommands()
         {
-            OpenCustomerViewCommand = new RelayCommand(_ => _navigationService.ShowDialog<AddCustomerDialog>());
+            OpenCustomerViewCommand = new RelayCommand(_ => _navigationService.ShowDialog<AddPrivateCustomerDialog>());
             EditCustomerCommand = new RelayCommand(_ => EditCustomer(), _ => IsSelected);
             DeleteCustomerCommand = new RelayCommand(_ => DeleteCustomer(), _ => IsSelected);
             LoadDataCommand = new RelayCommand(async _ => await StarteLade());

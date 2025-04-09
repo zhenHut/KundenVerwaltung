@@ -7,9 +7,9 @@ namespace KundenVerwaltung.View
     /// <summary>
     /// Interaktionslogik für AddCustomerDialog.xaml
     /// </summary>
-    public partial class AddCustomerDialog : Window
+    public partial class AddPrivateCustomerDialog : Window
     {
-        public AddCustomerDialog(AddCustomerDialogViewModel addCustomerDialogViewModel)
+        public AddPrivateCustomerDialog(AddCustomerDialogViewModel addCustomerDialogViewModel)
         {
             InitializeComponent();
             DataContext = addCustomerDialogViewModel;

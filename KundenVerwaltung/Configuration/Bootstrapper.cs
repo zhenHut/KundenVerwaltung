@@ -29,7 +29,7 @@ namespace KundenVerwaltung.Configuration
 
             // Registrierung der Views
             services.AddSingleton<MainWindow>();
-            services.AddTransient<AddCustomerDialog>();
+            services.AddTransient<AddPrivateCustomerDialog>();
 
             // Registrierung des INavigationService
             services.AddSingleton<INavigationService, NavigationService>();
